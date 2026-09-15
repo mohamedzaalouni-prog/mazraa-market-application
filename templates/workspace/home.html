@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Espace Filiale{% endblock %}
+
+{% block body %}
+<section class="hero-panel">
+    <div class="hero-side hero-side-logo">
+        <img src="{% static 'core/images/mazraa-market.png' %}" alt="Mazraa Market" class="hero-brand-logo-large">
+    </div>
+    <div class="hero-center-block">
+        <h1>{{ hero_title }}</h1>
+    </div>
+</section>
+
+<section class="powerbi-card">
+    <div class="card-head">
+        <div>
+            <p class="section-kicker">Choix du module</p>
+            <h2>Ou veux-tu entrer ?</h2>
+        </div>
+    </div>
+    <div class="journey-grid">
+        {% for item in workspace_links %}
+            <a href="{% url item.url_name %}" class="journey-card">
+                {% if item.url_name == "dashboard" %}
+                    <img src="{% static 'core/images/dashboard.png' %}" alt="Dashboard" class="module-logo">
+                {% elif item.url_name == "forecast" %}
+                    <img src="{% static 'core/images/prediction.png' %}" alt="Prediction" class="module-logo">
+                {% endif %}
+                <h3>{{ item.title }}</h3>
+            </a>
+        {% endfor %}
+    </div>
+</section>
+
+{% if not filiale_has_data %}
+<section class="empty-state-card">
+    <h2>Filiale en cours d'initialisation</h2>
+    <p>
+        La filiale {{ filiale.name }} est active, mais les donnees dashboard et prevision ne sont pas encore disponibles.
+        Tu peux garder la navigation active puis brancher les datasets des que les informations metier arrivent.
+    </p>
+</section>
+{% endif %}
+
+{% endblock %}

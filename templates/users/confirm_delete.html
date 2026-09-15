@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Suppression utilisateur{% endblock %}
+
+{% block body %}
+<section class="hero-panel">
+    <div>
+        <p class="section-kicker">Administration</p>
+        <h1>Supprimer un utilisateur</h1>
+        <p class="hero-copy">Cette action retire definitivement le compte selectionne et son profil associe de la plateforme.</p>
+    </div>
+    <div class="hero-actions">
+        <a href="{% url 'users_detail' user_obj.id %}" class="secondary-link-btn">Retour au detail</a>
+        <a href="{% url 'users_list' %}" class="secondary-link-btn">Annuler</a>
+    </div>
+</section>
+
+<section class="content-grid content-grid-balanced">
+    <article class="powerbi-card">
+        <p class="section-kicker">Compte cible</p>
+        <h2>{{ user_obj.get_full_name|default:user_obj.username }}</h2>
+        <dl class="key-value-grid">
+            <div>
+                <dt>CIN</dt>
+                <dd>{{ user_obj.username }}</dd>
+            </div>
+            <div>
+                <dt>Email</dt>
+                <dd>{{ user_obj.email|default:"-" }}</dd>
+            </div>
+            <div>
+                <dt>Role</dt>
+                <dd>{% if user_obj.is_superuser %}Superuser{% elif user_obj.is_staff %}Staff{% else %}Utilisateur{% endif %}</dd>
+            </div>
+            <div>
+                <dt>Statut</dt>
+                <dd>{% if user_obj.is_active %}Actif{% else %}Inactif{% endif %}</dd>
+            </div>
+        </dl>
+    </article>
+
+    <article class="powerbi-card danger-card">
+        <p class="section-kicker">Confirmation</p>
+        <h2>Suppression definitive</h2>
+        <p class="muted-copy">Confirme la suppression de ce compte. Cette action est irreversible et doit rester exceptionnelle.</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="primary-btn danger-btn">Supprimer definitivement</button>
+        </form>
+    </article>
+</section>
+{% endblock %}

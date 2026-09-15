@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Compte active{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+{% block shell_header %}{% endblock %}
+
+{% block body %}
+<section class="auth-shell auth-shell-single">
+    <article class="auth-card auth-card-compact">
+        <h2>Compte active</h2>
+        <p class="muted-copy">
+            Votre adresse email est confirmee. Vous pouvez maintenant vous connecter.
+        </p>
+        <div class="auth-links">
+            <a href="{% url 'login' %}">Aller a la connexion</a>
+        </div>
+    </article>
+</section>
+{% endblock %}

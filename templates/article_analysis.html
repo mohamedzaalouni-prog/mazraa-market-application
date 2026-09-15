@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Analyse Article{% endblock %}
+
+{% block body %}
+<section class="powerbi-card">
+    {% if filiale_has_data %}
+        <div id="article-analysis-embed" class="powerbi-embed-zone"></div>
+    {% else %}
+        <article class="empty-state-card">
+            <h2>Aucune analyse article disponible</h2>
+            <p>
+                L'analyse article de la filiale {{ filiale.name }} restera vide jusqu'a l'arrivee des donnees produit.
+            </p>
+        </article>
+    {% endif %}
+</section>
+{% endblock %}

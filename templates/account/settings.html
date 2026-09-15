@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Parametres{% endblock %}
+
+{% block body %}
+<section class="hero-panel">
+    <div>
+        <p class="section-kicker">Compte</p>
+        <h1>Centre de compte</h1>
+        <p class="hero-copy">Un espace simple pour aller vers les pages utiles sans repetition inutile.</p>
+    </div>
+</section>
+
+<section class="journey-grid">
+    <a href="{% url 'account_profile' %}" class="journey-card">
+        <div class="journey-card-top">
+            <span class="journey-code">01</span>
+            <span class="journey-arrow">-></span>
+        </div>
+        <h3>Profil</h3>
+        <strong>Consulter vos informations</strong>
+        <p>Afficher votre profil, votre email et votre rattachement filiale.</p>
+    </a>
+    <a href="{% url 'account_password_change' %}" class="journey-card">
+        <div class="journey-card-top">
+            <span class="journey-code">02</span>
+            <span class="journey-arrow">-></span>
+        </div>
+        <h3>Mot de passe</h3>
+        <strong>Mettre a jour votre mot de passe</strong>
+        <p>Modifier vos identifiants de securite avec validation Django.</p>
+    </a>
+</section>
+{% endblock %}

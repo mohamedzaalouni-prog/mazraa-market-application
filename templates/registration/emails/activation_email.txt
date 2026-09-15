@@ -1,0 +1,8 @@
+Bonjour {{ user.get_full_name|default:user.username }},
+
+Bienvenue sur Portail PGH.
+
+Activez votre compte en cliquant sur le lien ci-dessous :
+{{ activation_url }}
+
+Si vous n'etes pas a l'origine de cette inscription, ignorez simplement cet email.

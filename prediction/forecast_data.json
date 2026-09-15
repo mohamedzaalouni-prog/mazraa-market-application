@@ -1,0 +1,223 @@
+{
+  "modele": "Prophet",
+  "mape": 20.62,
+  "derniere_donnee_reelle": "January 2026",
+  "predictions": [
+    {
+      "mois": "February 2026",
+      "ca_predit": 9305.9,
+      "borne_basse": 6204.17,
+      "borne_haute": 11987.38
+    },
+    {
+      "mois": "March 2026",
+      "ca_predit": 10079.88,
+      "borne_basse": 7217.28,
+      "borne_haute": 13257.37
+    },
+    {
+      "mois": "April 2026",
+      "ca_predit": 10567.31,
+      "borne_basse": 7581.43,
+      "borne_haute": 13528.95
+    },
+    {
+      "mois": "May 2026",
+      "ca_predit": 12095.98,
+      "borne_basse": 9155.28,
+      "borne_haute": 15114.57
+    },
+    {
+      "mois": "June 2026",
+      "ca_predit": 12356.27,
+      "borne_basse": 9243.53,
+      "borne_haute": 15161.06
+    },
+    {
+      "mois": "July 2026",
+      "ca_predit": 10708.02,
+      "borne_basse": 7873.32,
+      "borne_haute": 13827.03
+    },
+    {
+      "mois": "August 2026",
+      "ca_predit": 8894.41,
+      "borne_basse": 5870.31,
+      "borne_haute": 11887.7
+    },
+    {
+      "mois": "September 2026",
+      "ca_predit": 10555.73,
+      "borne_basse": 7767.58,
+      "borne_haute": 13494.94
+    },
+    {
+      "mois": "October 2026",
+      "ca_predit": 11845.65,
+      "borne_basse": 8705.19,
+      "borne_haute": 14635.29
+    },
+    {
+      "mois": "November 2026",
+      "ca_predit": 13665.9,
+      "borne_basse": 10729.19,
+      "borne_haute": 16554.89
+    },
+    {
+      "mois": "December 2026",
+      "ca_predit": 15447.28,
+      "borne_basse": 12643.95,
+      "borne_haute": 18356.97
+    }
+  ],
+  "historique": [
+    {
+      "mois": "Jan 2023",
+      "ca_reel": 10796.71
+    },
+    {
+      "mois": "Feb 2023",
+      "ca_reel": 11064.86
+    },
+    {
+      "mois": "Mar 2023",
+      "ca_reel": 12066.91
+    },
+    {
+      "mois": "Apr 2023",
+      "ca_reel": 13005.45
+    },
+    {
+      "mois": "May 2023",
+      "ca_reel": 15411.77
+    },
+    {
+      "mois": "Jun 2023",
+      "ca_reel": 15679.93
+    },
+    {
+      "mois": "Jul 2023",
+      "ca_reel": 14113.35
+    },
+    {
+      "mois": "Aug 2023",
+      "ca_reel": 11516.49
+    },
+    {
+      "mois": "Sep 2023",
+      "ca_reel": 13809.91
+    },
+    {
+      "mois": "Oct 2023",
+      "ca_reel": 15115.39
+    },
+    {
+      "mois": "Nov 2023",
+      "ca_reel": 16597.29
+    },
+    {
+      "mois": "Dec 2023",
+      "ca_reel": 18347.35
+    },
+    {
+      "mois": "Jan 2024",
+      "ca_reel": 6774.41
+    },
+    {
+      "mois": "Feb 2024",
+      "ca_reel": 7828.2
+    },
+    {
+      "mois": "Mar 2024",
+      "ca_reel": 8637.37
+    },
+    {
+      "mois": "Apr 2024",
+      "ca_reel": 8849.07
+    },
+    {
+      "mois": "May 2024",
+      "ca_reel": 9484.17
+    },
+    {
+      "mois": "Jun 2024",
+      "ca_reel": 10867.28
+    },
+    {
+      "mois": "Jul 2024",
+      "ca_reel": 9032.54
+    },
+    {
+      "mois": "Aug 2024",
+      "ca_reel": 8317.46
+    },
+    {
+      "mois": "Sep 2024",
+      "ca_reel": 9027.84
+    },
+    {
+      "mois": "Oct 2024",
+      "ca_reel": 10076.93
+    },
+    {
+      "mois": "Nov 2024",
+      "ca_reel": 10839.05
+    },
+    {
+      "mois": "Dec 2024",
+      "ca_reel": 12231.57
+    },
+    {
+      "mois": "Jan 2025",
+      "ca_reel": 8566.02
+    },
+    {
+      "mois": "Feb 2025",
+      "ca_reel": 9425.62
+    },
+    {
+      "mois": "Mar 2025",
+      "ca_reel": 10495.62
+    },
+    {
+      "mois": "Apr 2025",
+      "ca_reel": 11078.71
+    },
+    {
+      "mois": "May 2025",
+      "ca_reel": 12623.6
+    },
+    {
+      "mois": "Jun 2025",
+      "ca_reel": 13092.48
+    },
+    {
+      "mois": "Jul 2025",
+      "ca_reel": 11421.36
+    },
+    {
+      "mois": "Aug 2025",
+      "ca_reel": 10014.73
+    },
+    {
+      "mois": "Sep 2025",
+      "ca_reel": 11192.93
+    },
+    {
+      "mois": "Oct 2025",
+      "ca_reel": 12244.9
+    },
+    {
+      "mois": "Nov 2025",
+      "ca_reel": 14859.78
+    },
+    {
+      "mois": "Dec 2025",
+      "ca_reel": 16410.68
+    },
+    {
+      "mois": "Jan 2026",
+      "ca_reel": 20015.41
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Activation du compte{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+{% block shell_header %}{% endblock %}
+
+{% block body %}
+<section class="auth-shell auth-shell-single">
+    <article class="auth-card auth-card-wide">
+        <h2>Verification en attente</h2>
+        {% if masked_email %}
+        <p class="muted-copy">
+            Un lien d'activation a ete envoye a <strong>{{ masked_email }}</strong>.
+            Ouvrez cet email puis cliquez sur le lien pour activer votre compte.
+        </p>
+        {% else %}
+        <p class="muted-copy">
+            Saisissez votre email d'inscription pour recevoir un nouveau lien d'activation.
+        </p>
+        {% endif %}
+        {% if email_backend_console %}
+        <p class="muted-copy">
+            Configuration actuelle: les emails partent vers la console Django.
+        </p>
+        {% endif %}
+
+        <form method="post" action="{% url 'resend_activation' %}" class="auth-form" novalidate>
+            {% csrf_token %}
+            {{ resend_form.non_field_errors }}
+            <div class="field-block">
+                <label for="{{ resend_form.email.id_for_label }}">Adresse email</label>
+                {{ resend_form.email }}
+                {{ resend_form.email.errors }}
+            </div>
+            <button type="submit" class="primary-btn">Renvoyer le lien d'activation</button>
+        </form>
+
+        <div class="auth-links">
+            <p><a href="{% url 'login' %}">Retour a la connexion</a></p>
+        </div>
+    </article>
+</section>
+{% endblock %}

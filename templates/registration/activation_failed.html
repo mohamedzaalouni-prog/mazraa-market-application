@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Lien invalide{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+{% block shell_header %}{% endblock %}
+
+{% block body %}
+<section class="auth-shell auth-shell-single">
+    <article class="auth-card auth-card-wide">
+        <h2>Lien d'activation invalide</h2>
+        <p class="muted-copy">
+            Ce lien est invalide ou a expire. Vous pouvez demander un nouveau lien d'activation.
+        </p>
+        <div class="auth-links">
+            <p><a href="{% url 'signup_pending' %}">Renvoyer un lien d'activation</a></p>
+            <p><a href="{% url 'login' %}">Retour a la connexion</a></p>
+        </div>
+    </article>
+</section>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Filiales{% endblock %}
+
+{% block body %}
+<section class="hero-panel">
+    <div>
+        <p class="section-kicker">Administration</p>
+        <h1>Admin filiales</h1>
+    </div>
+    <div class="hero-side">
+        <div class="hero-meta">
+            <span>{{ total_filiales }} filiales</span>
+            <span>{{ active_filiales }} actives</span>
+            <span>{{ inactive_filiales }} inactives</span>
+        </div>
+        <div class="hero-actions">
+            <a href="{% url 'users_list' %}" class="secondary-link-btn">Gerer les utilisateurs</a>
+            <a href="{% url 'filiales_create' %}" class="primary-link-btn">Nouvelle filiale</a>
+        </div>
+    </div>
+</section>
+
+<section class="powerbi-card">
+    <form method="get" class="admin-filter-form admin-filter-form-compact" novalidate>
+        <div class="field-block field-span-2">
+            <label for="id_q">Recherche</label>
+            <input id="id_q" type="text" name="q" value="{{ filters.q }}" placeholder="Nom, code ou description">
+        </div>
+        <div class="field-block">
+            <label for="id_status">Statut</label>
+            <select id="id_status" name="status">
+                <option value="">Tous</option>
+                <option value="active" {% if filters.status == "active" %}selected{% endif %}>Actives</option>
+                <option value="inactive" {% if filters.status == "inactive" %}selected{% endif %}>Inactives</option>
+            </select>
+        </div>
+        <div class="admin-filter-actions">
+            <button type="submit" class="primary-link-btn">Filtrer</button>
+            <a href="{% url 'filiales_list' %}" class="secondary-link-btn">Reinitialiser</a>
+        </div>
+    </form>
+</section>
+
+<section class="powerbi-card">
+    {% if filiales %}
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Filiale</th>
+                        <th>Code</th>
+                        <th>Statut</th>
+                        <th>Utilisateurs principaux</th>
+                        <th>Utilisateurs autorises</th>
+                        <th>Ordre</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for filiale in filiales %}
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <strong>{{ filiale.name }}</strong>
+                                    <span>{{ filiale.description|default:"Aucune description" }}</span>
+                                </div>
+                            </td>
+                            <td><span class="status-chip">{{ filiale.code }}</span></td>
+                            <td>
+                                {% if filiale.is_active %}
+                                    <span class="status-chip status-chip-success">Active</span>
+                                {% else %}
+                                    <span class="status-chip status-chip-muted">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ filiale.primary_user_count }}</td>
+                            <td>{{ filiale.authorized_user_count }}</td>
+                            <td>{{ filiale.sort_order }}</td>
+                            <td class="actions-cell">
+                                <a class="table-link" href="{% url 'filiales_update' filiale.id %}">Modifier</a>
+                                <a class="table-link table-link-danger" href="{% url 'filiales_delete' filiale.id %}">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state-card">
+            <h2>Aucune filiale trouvee</h2>
+            <p class="muted-copy">Les trois filiales standards restent Mazraa Market, GIPA et Jadida.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

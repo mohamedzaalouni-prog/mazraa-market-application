@@ -1,0 +1,13 @@
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Prédire
+    </button>
+</form>
+
+{% if result %}
+    <h3>Résultat : {{ result }}</h3>
+{% endif %}

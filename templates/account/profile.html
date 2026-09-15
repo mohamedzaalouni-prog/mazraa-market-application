@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+<section class="hero-panel">
+    <div>
+        <p class="section-kicker">Compte</p>
+        <h1>Profil</h1>
+        <p class="hero-copy">Vue claire de vos informations et de votre rattachement dans la plateforme.</p>
+    </div>
+</section>
+
+<section class="detail-grid">
+    <article class="powerbi-card">
+        <div class="card-head">
+            <div>
+                <p class="section-kicker">Identite</p>
+                <h2>Informations principales</h2>
+            </div>
+            <div class="chip-stack">
+                {% if request.user.is_active %}
+                    <span class="status-chip status-chip-success">Compte actif</span>
+                {% else %}
+                    <span class="status-chip status-chip-muted">Compte inactif</span>
+                {% endif %}
+                {% if request.user.is_superuser %}
+                    <span class="status-chip status-chip-alert">Superuser</span>
+                {% elif request.user.is_staff %}
+                    <span class="status-chip status-chip-primary">Staff</span>
+                {% else %}
+                    <span class="status-chip">Utilisateur</span>
+                {% endif %}
+            </div>
+        </div>
+        <dl class="key-value-grid">
+            <div>
+                <dt>CIN</dt>
+                <dd>{{ profile_obj.cin|default:request.user.username }}</dd>
+            </div>
+            <div>
+                <dt>Nom complet</dt>
+                <dd>{{ request.user.get_full_name|default:"-" }}</dd>
+            </div>
+            <div class="kv-wide">
+                <dt>Email</dt>
+                <dd>{{ request.user.email|default:"-" }}</dd>
+            </div>
+            <div class="kv-wide">
+                <dt>Derniere connexion</dt>
+                <dd>{{ request.user.last_login|date:"d/m/Y H:i"|default:"Jamais" }}</dd>
+            </div>
+        </dl>
+    </article>
+
+    <article class="powerbi-card">
+        <p class="section-kicker">Rattachement</p>
+        <h2>Perimetre fonctionnel</h2>
+        <dl class="key-value-grid">
+            <div>
+                <dt>Filiale principale</dt>
+                <dd>{{ profile_obj.filiale.name|default:"-" }}</dd>
+            </div>
+            <div>
+                <dt>Poste</dt>
+                <dd>{{ profile_obj.position|default:"-" }}</dd>
+            </div>
+            <div>
+                <dt>Telephone</dt>
+                <dd>{{ profile_obj.phone|default:"-" }}</dd>
+            </div>
+            <div>
+                <dt>Admin filiale</dt>
+                <dd>{% if profile_obj.is_filiale_admin %}Oui{% else %}Non{% endif %}</dd>
+            </div>
+        </dl>
+        <p class="section-kicker">Filiales accessibles</p>
+        <div class="chip-stack">
+            {% for filiale in profile_obj.accessible_filiales.all %}
+                <span class="status-chip">{{ filiale.name }}</span>
+            {% empty %}
+                <span class="status-chip status-chip-muted">Aucune filiale assignee</span>
+            {% endfor %}
+        </div>
+    </article>
+
+</section>
+{% endblock %}

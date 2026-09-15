@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Achats{% endblock %}
+
+{% block body %}
+<section class="powerbi-card">
+    {% if filiale_has_data %}
+        <div id="purchases-embed" class="powerbi-embed-zone"></div>
+    {% else %}
+        <article class="empty-state-card">
+            <h2>Aucune donnee achats pour le moment</h2>
+            <p>
+                La filiale {{ filiale.name }} est bien active, mais les donnees achats ne sont pas encore chargees.
+            </p>
+        </article>
+    {% endif %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Prevision{% endblock %}
+
+{% block body %}
+<section class="powerbi-card">
+    {% if filiale_has_data %}
+        <div id="forecast-embed" class="powerbi-embed-zone"></div>
+    {% else %}
+        <article class="empty-state-card">
+            <h2>Aucune donnee de prevision</h2>
+            <p>
+                La filiale {{ filiale.name }} est en attente des historiques necessaires avant d'activer la prevision.
+            </p>
+        </article>
+    {% endif %}
+</section>
+
+{% endblock %}

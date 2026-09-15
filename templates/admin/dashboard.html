@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+<section class="hero-panel">
+    <div>
+        <p class="section-kicker">Administration</p>
+        <h1>Interface admin</h1>
+        <p class="hero-copy">Choisis l'espace de gestion a ouvrir dans l'interface d'administration.</p>
+    </div>
+</section>
+
+<section class="powerbi-card">
+    <div class="card-head">
+        <div>
+            <p class="section-kicker">Choix de gestion</p>
+            <h2>Ou veux-tu entrer ?</h2>
+        </div>
+    </div>
+    <div class="journey-grid">
+        {% for item in admin_links %}
+            <a href="{% url item.url_name %}" class="journey-card">
+                {% if item.url_name == "users_list" %}
+                    <img src="{% static 'core/images/users.png' %}" alt="Gestion utilisateurs" class="module-logo">
+                {% elif item.url_name == "filiales_list" %}
+                    <img src="{% static 'core/images/filiales.png' %}" alt="Gestion filiales" class="module-logo">
+                {% endif %}
+                <div class="journey-card-top">
+                    <span class="journey-code">{{ item.code }}</span>
+                    <span class="journey-arrow" aria-hidden="true">&rsaquo;</span>
+                </div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.description }}</p>
+            </a>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

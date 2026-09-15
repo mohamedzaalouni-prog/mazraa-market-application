@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Suppression filiale{% endblock %}
+
+{% block body %}
+<section class="hero-panel">
+    <div>
+        <p class="section-kicker">Administration</p>
+        <h1>Supprimer une filiale</h1>
+        <p class="hero-copy">Cette action retire la filiale de la plateforme. Les utilisateurs rattaches perdront ce lien principal ou secondaire.</p>
+    </div>
+    <div class="hero-actions">
+        <a href="{% url 'filiales_update' filiale.id %}" class="secondary-link-btn">Retour a la modification</a>
+        <a href="{% url 'filiales_list' %}" class="secondary-link-btn">Annuler</a>
+    </div>
+</section>
+
+<section class="content-grid content-grid-balanced">
+    <article class="powerbi-card">
+        <p class="section-kicker">Filiale cible</p>
+        <h2>{{ filiale.name }}</h2>
+        <dl class="key-value-grid">
+            <div>
+                <dt>Code</dt>
+                <dd>{{ filiale.code }}</dd>
+            </div>
+            <div>
+                <dt>Statut</dt>
+                <dd>{% if filiale.is_active %}Active{% else %}Inactive{% endif %}</dd>
+            </div>
+            <div>
+                <dt>Utilisateurs principaux</dt>
+                <dd>{{ primary_user_count }}</dd>
+            </div>
+            <div>
+                <dt>Utilisateurs autorises</dt>
+                <dd>{{ authorized_user_count }}</dd>
+            </div>
+        </dl>
+    </article>
+
+    <article class="powerbi-card danger-card">
+        <p class="section-kicker">Confirmation</p>
+        <h2>Suppression definitive</h2>
+        <p class="muted-copy">Confirme la suppression si cette filiale ne doit plus exister dans la plateforme.</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="primary-btn danger-btn">Supprimer definitivement</button>
+        </form>
+    </article>
+</section>
+{% endblock %}

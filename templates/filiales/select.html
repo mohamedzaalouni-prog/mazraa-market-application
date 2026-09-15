@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Choix filiale{% endblock %}
+
+{% block body %}
+<section class="selection-layout selection-layout-single">
+    <article class="selection-card">
+        <div class="card-head">
+            <div>
+                <p class="section-kicker">Filiales disponibles</p>
+                <h2>Choisis ta filiale</h2>
+            </div>
+            <span class="soft-chip">{{ total_filiales }} filiales</span>
+        </div>
+        <form method="post" class="selection-form">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="filiale-list" data-filiale-list>
+                {{ form.filiale.errors }}
+                <ul>
+                    {% for filiale in filiales %}
+                        <li>
+                            <label for="filiale_{{ filiale.id }}" data-filiale-name="{{ filiale.name }}">
+                                <input
+                                    type="radio"
+                                    name="filiale"
+                                    value="{{ filiale.id }}"
+                                    id="filiale_{{ filiale.id }}"
+                                    {% if form.filiale.value|stringformat:"s" == filiale.id|stringformat:"s" %}checked{% endif %}
+                                >
+                                <span>
+                                    <small class="filiale-state">Disponible maintenant</small>
+                                    <strong>{{ filiale.name }}</strong>
+                                    <small class="card-note">{{ filiale.description }}</small>
+                                </span>
+                            </label>
+                        </li>
+                    {% endfor %}
+                    {% for filiale in future_filiales %}
+                        <li>
+                            <article class="filiale-locked-card">
+                                <span class="filiale-locked-badge">A venir</span>
+                                <strong>{{ filiale.name }}</strong>
+                                <small class="card-note">{{ filiale.description }}</small>
+                            </article>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <button type="submit" class="primary-btn filiale-submit-btn" data-filiale-submit>
+                Choisir une filiale
+            </button>
+        </form>
+    </article>
+</section>
+
+<script>
+    (() => {
+        const list = document.querySelector("[data-filiale-list]");
+        const submit = document.querySelector("[data-filiale-submit]");
+        if (!list || !submit) {
+            return;
+        }
+
+        const updateLabel = () => {
+            const checked = list.querySelector("input[type='radio']:checked");
+            if (!checked) {
+                submit.textContent = "Choisir une filiale";
+                return;
+            }
+            const label = checked.closest("label");
+            const name = label?.getAttribute("data-filiale-name") || "Filiale selectionnee";
+            submit.textContent = `Entrer dans ${name}`;
+        };
+
+        list.addEventListener("change", updateLabel);
+        updateLabel();
+    })();
+</script>
+{% endblock %}

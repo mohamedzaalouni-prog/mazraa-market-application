@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Connexion{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+{% block shell_header %}{% endblock %}
+
+{% block body %}
+<section class="auth-shell auth-shell-single">
+    <article class="auth-card auth-card-compact">
+        <div class="login-brand-mark">
+            <img src="{% static 'core/images/pgh.png' %}" alt="Poulina Group Holding">
+        </div>
+        <h2>Se connecter</h2>
+        <p class="muted-copy">Utilisez votre adresse email activee et votre mot de passe.</p>
+        <form method="post" action="{% url 'login' %}" class="auth-form" novalidate>
+            {% csrf_token %}
+            {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+            {{ form.non_field_errors }}
+
+            <div class="field-block">
+                <label for="id_login_username">Adresse email</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="field-block">
+                <label for="id_login_password">Mot de passe</label>
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+
+            <label class="check-line" for="id_remember_me">
+                {{ form.remember_me }}
+                <span>Rester connecte sur cet appareil</span>
+            </label>
+
+            <button type="submit" class="primary-btn">Connexion</button>
+        </form>
+
+        <div class="auth-links">
+            <a href="{% url 'password_reset' %}">Mot de passe oublie ?</a>
+            <p>Pas encore de compte ? <a href="{% url 'signup' %}">Creer un compte</a></p>
+        </div>
+    </article>
+</section>
+{% endblock %}

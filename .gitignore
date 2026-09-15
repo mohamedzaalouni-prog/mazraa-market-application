@@ -1,0 +1,36 @@
+# OS / editor
+desktop.ini
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Python
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+__pycache__/
+**/__pycache__/
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Local databases and collected static files
+*.sqlite3
+db.sqlite3
+staticfiles/
+
+# Coverage / misc
+.coverage
+htmlcov/

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Prévision CA — Décembre 2026{% endblock %}
+
+{% block body %}
+
+<!-- HERO -->
+<section class="hero-panel">
+  <div>
+    <p class="section-kicker">Machine Learning · {{ modele }}</p>
+    <h1>Prévision Chiffre d'Affaires</h1>
+    <p class="hero-copy">
+      Prédictions mensuelles jusqu'à Décembre 2026 · Précision MAPE : {{ mape }}%
+    </p>
+  </div>
+</section>
+
+<!-- TABLEAU DES PRÉDICTIONS -->
+<section class="powerbi-card" style="margin-top:2rem;">
+  <h2 style="margin-bottom:1rem;color:#F97316;">
+    🔮 {{ nb_mois }} mois de prédictions — après {{ derniere_date }}
+  </h2>
+
+  <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:0.95rem;">
+      <thead>
+        <tr style="background:#1e293b;color:#f1f5f9;">
+          <th style="padding:12px 16px;text-align:left;">Mois</th>
+          <th style="padding:12px 16px;text-align:right;">CA Prédit (DT)</th>
+          <th style="padding:12px 16px;text-align:right;">Borne Basse</th>
+          <th style="padding:12px 16px;text-align:right;">Borne Haute</th>
+          <th style="padding:12px 16px;text-align:center;">Tendance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in predictions %}
+        <tr style="border-bottom:1px solid #334155;{% if forloop.odd %}background:#0f172a;{% else %}background:#1e293b;{% endif %}">
+          <td style="padding:10px 16px;font-weight:600;color:#e2e8f0;">{{ p.mois }}</td>
+          <td style="padding:10px 16px;text-align:right;color:#F97316;font-weight:700;font-size:1.05rem;">
+            {{ p.ca_predit|floatformat:2 }}
+          </td>
+          <td style="padding:10px 16px;text-align:right;color:#94a3b8;">
+            {{ p.borne_basse|floatformat:2 }}
+          </td>
+          <td style="padding:10px 16px;text-align:right;color:#94a3b8;">
+            {{ p.borne_haute|floatformat:2 }}
+          </td>
+          <td style="padding:10px 16px;text-align:center;">
+            {% if p.ca_predit >= 12000 %}
+              <span style="color:#22c55e;font-size:1.2rem;">↑</span>
+            {% elif p.ca_predit >= 9000 %}
+              <span style="color:#f59e0b;font-size:1.2rem;">→</span>
+            {% else %}
+              <span style="color:#ef4444;font-size:1.2rem;">↓</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RÉSUMÉ STATISTIQUE -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem;">
+    <div style="background:#1e293b;border-radius:12px;padding:1.5rem;text-align:center;border:1px solid #334155;">
+      <p style="color:#94a3b8;font-size:0.8rem;margin:0;">MODÈLE</p>
+      <p style="color:#F97316;font-size:1.4rem;font-weight:700;margin:0.5rem 0;">{{ modele }}</p>
+      <p style="color:#64748b;font-size:0.75rem;margin:0;">Meilleur modèle</p>
+    </div>
+    <div style="background:#1e293b;border-radius:12px;padding:1.5rem;text-align:center;border:1px solid #334155;">
+      <p style="color:#94a3b8;font-size:0.8rem;margin:0;">PRÉCISION</p>
+      <p style="color:#22c55e;font-size:1.4rem;font-weight:700;margin:0.5rem 0;">{{ mape }}%</p>
+      <p style="color:#64748b;font-size:0.75rem;margin:0;">MAPE (plus bas = meilleur)</p>
+    </div>
+    <div style="background:#1e293b;border-radius:12px;padding:1.5rem;text-align:center;border:1px solid #334155;">
+      <p style="color:#94a3b8;font-size:0.8rem;margin:0;">MOIS PRÉDITS</p>
+      <p style="color:#2563EB;font-size:1.4rem;font-weight:700;margin:0.5rem 0;">{{ nb_mois }}</p>
+      <p style="color:#64748b;font-size:0.75rem;margin:0;">Jusqu'à Décembre 2026</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Creation de compte{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+{% block shell_header %}{% endblock %}
+
+{% block body %}
+<section class="auth-shell auth-shell-single">
+    <article class="auth-card auth-card-wide">
+        <h2>Creer un compte</h2>
+        <p class="muted-copy">
+            Le compte reste inactif jusqu'a la confirmation de votre adresse email.
+        </p>
+        {% if email_backend_console %}
+        <p class="muted-copy">
+            Configuration actuelle: les emails partent vers la console Django.
+            Pour recevoir le lien d'activation dans une vraie boite mail, configure le SMTP.
+        </p>
+        {% endif %}
+        <form method="post" class="auth-form auth-grid" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="field-block field-span-2">
+                <label for="{{ form.filiale.id_for_label }}">Filiale</label>
+                {{ form.filiale }}
+                {{ form.filiale.errors }}
+            </div>
+
+            <div class="field-block">
+                <label for="{{ form.cin.id_for_label }}">CIN</label>
+                {{ form.cin }}
+                {{ form.cin.errors }}
+            </div>
+
+            <div class="field-block">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="field-block">
+                <label for="{{ form.first_name.id_for_label }}">Nom</label>
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </div>
+
+            <div class="field-block">
+                <label for="{{ form.last_name.id_for_label }}">Prenom</label>
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+            </div>
+
+            <div class="field-block">
+                <label for="{{ form.password1.id_for_label }}">Mot de passe</label>
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+            </div>
+
+            <div class="field-block">
+                <label for="{{ form.password2.id_for_label }}">Confirmation mot de passe</label>
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+            </div>
+
+            <div class="field-span-2">
+                <button type="submit" class="primary-btn">Creer le compte</button>
+            </div>
+        </form>
+
+        <div class="auth-links">
+            <p>Vous avez deja un compte ? <a href="{% url 'login' %}">Retour a la connexion</a></p>
+        </div>
+    </article>
+</section>
+{% endblock %}

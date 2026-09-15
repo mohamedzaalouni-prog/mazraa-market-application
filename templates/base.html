@@ -1,0 +1,99 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PGH Pilotage{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/site.css' %}?v=2026052102">
+    {% if request.user.is_authenticated %}
+    <script defer src="{% static 'core/account-menu.js' %}"></script>
+    {% endif %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <div class="site-backdrop" aria-hidden="true">
+        <div class="backdrop-glow glow-a"></div>
+        <div class="backdrop-glow glow-b"></div>
+        <div class="backdrop-grid"></div>
+    </div>
+
+    {% block shell_header %}
+    {% if request.user.is_authenticated %}
+        <header class="shell-header">
+            <div class="shell-brand">
+                <img src="{% static 'core/images/pgh.png' %}" alt="Poulina Group Holding" class="shell-brand-logo">
+            </div>
+            <nav class="shell-nav">
+                                {% if page_name == 'filiales' %}
+                    <a href="{% url 'filiale_select' %}" class="is-active">Filiales</a>
+                    <a href="{% url 'workspace_home' %}">Espace</a>
+                {% elif page_name == 'workspace' or page_name == 'forecast' or page_name == 'dashboard' or page_name == 'purchases' or page_name == 'sales' or page_name == 'article_analysis' %}
+                    <a href="{% url 'filiale_select' %}">Filiales</a>
+                    <a href="{% url 'workspace_home' %}" class="is-active">Espace</a>
+                {% else %}
+                    <a href="{% url 'filiale_select' %}">Filiales</a>
+                    <a href="{% url 'workspace_home' %}">Espace</a>
+                {% endif %}
+                {% if request.user.is_staff %}
+                    <a href="{% url 'admin_dashboard' %}" class="{% if page_name == 'admin' or page_name == 'users' or page_name == 'filiales_admin' %}is-active{% endif %}">Admin</a>
+                {% endif %}
+                <div class="account-menu" data-account-menu>
+                    <button
+                        type="button"
+                        class="account-trigger {% if page_name == 'account_profile' or page_name == 'account_settings' or page_name == 'account_password_change' %}is-active{% endif %}"
+                        id="account-menu-trigger"
+                        data-account-trigger
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        aria-controls="account-menu-panel"
+                    >
+                        Parametres
+                    </button>
+                    <div
+                        class="account-dropdown"
+                        id="account-menu-panel"
+                        data-account-dropdown
+                        role="menu"
+                        aria-labelledby="account-menu-trigger"
+                        hidden
+                    >
+                        <div class="account-section">
+                            <span class="account-section-title">Compte</span>
+                            <a href="{% url 'account_profile' %}" class="account-link">Profil</a>
+                        </div>
+                        {% if page_name != 'account_settings' %}
+                            <div class="account-divider"></div>
+                            <div class="account-section">
+                                <span class="account-section-title">Securite</span>
+                                <a href="{% url 'account_password_change' %}" class="account-link">Changer le mot de passe</a>
+                            </div>
+                        {% endif %}
+                        <div class="account-divider"></div>
+                        <form method="post" action="{% url 'logout' %}" class="account-logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="account-link account-link-button account-link-danger">Deconnexion</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+            <div class="shell-header-ghost" aria-hidden="true"></div>
+        </header>
+    {% endif %}
+    {% endblock %}
+
+    <main class="shell-main page-fade">
+        {% if messages %}
+            <section class="flash-stack">
+                {% for message in messages %}
+                    <article class="flash flash-{{ message.tags|default:'info' }}">{{ message }}</article>
+                {% endfor %}
+            </section>
+        {% endif %}
+        {% block body %}{% endblock %}
+    </main>
+</body>
+</html>
+

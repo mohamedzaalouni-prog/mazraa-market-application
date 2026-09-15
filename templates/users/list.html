@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+<section class="hero-panel">
+    <div>
+        <p class="section-kicker">Administration</p>
+        <h1>Admin utilisateurs</h1>
+    </div>
+    <div class="hero-side">
+        <div class="hero-meta">
+            <span>{{ total_users }} comptes</span>
+            <span>{{ staff_users }} staff</span>
+            <span>{{ active_users }} actifs</span>
+        </div>
+        <div class="hero-actions">
+            <a href="{% url 'filiales_list' %}" class="secondary-link-btn">Gerer les filiales</a>
+            <a href="{% url 'users_create' %}" class="primary-link-btn">Nouveau compte</a>
+        </div>
+    </div>
+</section>
+
+<section class="admin-stat-grid">
+    <article class="admin-stat-card">
+        <span>Total</span>
+        <strong>{{ total_users }}</strong>
+        <p>Comptes presents dans la plateforme.</p>
+    </article>
+    <article class="admin-stat-card">
+        <span>Staff</span>
+        <strong>{{ staff_users }}</strong>
+        <p>Utilisateurs habilites a l'administration.</p>
+    </article>
+    <article class="admin-stat-card">
+        <span>Superusers</span>
+        <strong>{{ admin_users }}</strong>
+        <p>Comptes avec privileges eleves.</p>
+    </article>
+    <article class="admin-stat-card">
+        <span>Actifs</span>
+        <strong>{{ active_users }}</strong>
+        <p>Comptes pouvant se connecter actuellement.</p>
+    </article>
+</section>
+
+<section class="powerbi-card">
+    <form method="get" class="admin-filter-form" novalidate>
+        <div class="field-block field-span-2">
+            <label for="id_q">Recherche</label>
+            <input id="id_q" type="text" name="q" value="{{ filters.q }}" placeholder="CIN, nom, email, poste">
+        </div>
+        <div class="field-block">
+            <label for="id_filiale">Filiale</label>
+            <select id="id_filiale" name="filiale">
+                <option value="">Toutes les filiales</option>
+                {% for filiale in filiales %}
+                    <option value="{{ filiale.id }}" {% if filters.filiale == filiale.id|stringformat:"s" %}selected{% endif %}>{{ filiale.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="field-block">
+            <label for="id_status">Statut</label>
+            <select id="id_status" name="status">
+                <option value="">Tous</option>
+                <option value="active" {% if filters.status == "active" %}selected{% endif %}>Actifs</option>
+                <option value="inactive" {% if filters.status == "inactive" %}selected{% endif %}>Inactifs</option>
+            </select>
+        </div>
+        <div class="field-block">
+            <label for="id_role">Role</label>
+            <select id="id_role" name="role">
+                <option value="">Tous</option>
+                <option value="admin" {% if filters.role == "admin" %}selected{% endif %}>Superusers</option>
+                <option value="staff" {% if filters.role == "staff" %}selected{% endif %}>Staff</option>
+                <option value="user" {% if filters.role == "user" %}selected{% endif %}>Utilisateurs</option>
+            </select>
+        </div>
+        <div class="field-block">
+            <label for="id_access">Acces filiales</label>
+            <select id="id_access" name="access">
+                <option value="">Tous</option>
+                <option value="assigned" {% if filters.access == "assigned" %}selected{% endif %}>Assignes</option>
+                <option value="unassigned" {% if filters.access == "unassigned" %}selected{% endif %}>Non assignes</option>
+            </select>
+        </div>
+        <div class="admin-filter-actions field-span-2">
+            <button type="submit" class="primary-link-btn">Filtrer</button>
+            <a href="{% url 'users_list' %}" class="secondary-link-btn">Reinitialiser</a>
+        </div>
+    </form>
+</section>
+
+<section class="powerbi-card">
+    {% if users %}
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Filiale</th>
+                        <th>Role</th>
+                        <th>Statut</th>
+                        <th>Acces</th>
+                        <th>Cree le</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user_obj in users %}
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <strong>{{ user_obj.get_full_name|default:user_obj.username }}</strong>
+                                    <span>CIN {{ user_obj.profile.cin|default:user_obj.username }}</span>
+                                    <span>{{ user_obj.profile.position|default:"Fonction non renseignee" }}</span>
+                                </div>
+                            </td>
+                            <td>{{ user_obj.profile.filiale.name|default:"-" }}</td>
+                            <td>
+                                <div class="chip-stack">
+                                    {% if user_obj.is_superuser %}
+                                        <span class="status-chip status-chip-alert">Superuser</span>
+                                    {% elif user_obj.is_staff %}
+                                        <span class="status-chip status-chip-primary">Staff</span>
+                                    {% else %}
+                                        <span class="status-chip">Utilisateur</span>
+                                    {% endif %}
+                                    {% if user_obj.profile.is_filiale_admin %}
+                                        <span class="status-chip status-chip-accent">Admin filiale</span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                {% if user_obj.is_active %}
+                                    <span class="status-chip status-chip-success">Actif</span>
+                                {% else %}
+                                    <span class="status-chip status-chip-muted">Inactif</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user_obj.profile.accessible_filiales.count %}
+                                    <span class="status-chip">{{ user_obj.profile.accessible_filiales.count }} filiale{{ user_obj.profile.accessible_filiales.count|pluralize }}</span>
+                                {% else %}
+                                    <span class="status-chip status-chip-muted">Aucun acces</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ user_obj.date_joined|date:"d/m/Y" }}</td>
+                            <td class="actions-cell">
+                                <a class="table-link" href="{% url 'users_detail' user_obj.id %}">Voir</a>
+                                <a class="table-link" href="{% url 'users_update' user_obj.id %}">Modifier</a>
+                                {% if user_obj != request.user %}
+                                    <a class="table-link table-link-danger" href="{% url 'users_delete' user_obj.id %}">Supprimer</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if page_obj.paginator.num_pages > 1 %}
+            <nav class="pagination-bar" aria-label="Pagination utilisateurs">
+                {% if page_obj.has_previous %}
+                    <a class="secondary-link-btn" href="?q={{ filters.q|urlencode }}&filiale={{ filters.filiale|urlencode }}&status={{ filters.status|urlencode }}&role={{ filters.role|urlencode }}&access={{ filters.access|urlencode }}&page={{ page_obj.previous_page_number }}">Precedent</a>
+                {% endif %}
+                <span class="status-chip">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                {% if page_obj.has_next %}
+                    <a class="secondary-link-btn" href="?q={{ filters.q|urlencode }}&filiale={{ filters.filiale|urlencode }}&status={{ filters.status|urlencode }}&role={{ filters.role|urlencode }}&access={{ filters.access|urlencode }}&page={{ page_obj.next_page_number }}">Suivant</a>
+                {% endif %}
+            </nav>
+        {% endif %}
+    {% else %}
+        <div class="empty-state-card">
+            <h2>Aucun utilisateur trouve</h2>
+            <p class="muted-copy">Ajuste les filtres actifs ou cree un nouveau compte pour initialiser l'administration.</p>
+            <a href="{% url 'users_create' %}" class="primary-link-btn">Creer un utilisateur</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<section class="powerbi-card powerbi-dashboard-card">
+    {% if filiale_has_data and powerbi_embed_url %}
+        <div id="dashboard-embed" class="powerbi-embed-zone powerbi-responsive-container">
+            <iframe
+                title="Tableau de bord Power BI"
+                src="{{ powerbi_embed_url }}"
+                loading="lazy"
+                allowFullScreen="true"
+                class="powerbi-iframe">
+            </iframe>
+        </div>
+    {% elif filiale_has_data %}
+        <div class="powerbi-empty-state">
+            <h2>Power BI non configure</h2>
+            <p>
+                Le dashboard Power BI n'est pas encore configure.
+                Ajoutez POWERBI_DASHBOARD_EMBED_URL dans le fichier d'environnement, puis relancez l'application.
+            </p>
+        </div>
+    {% else %}
+        <div class="powerbi-empty-state">
+            <h2>Aucune donnee disponible</h2>
+            <p>
+                Le dashboard de la filiale {{ filiale.name }} est encore vide.
+                Les indicateurs apparaitront apres l'integration des sources metier.
+            </p>
+        </div>
+    {% endif %}
+</section>
+
+{% endblock %}

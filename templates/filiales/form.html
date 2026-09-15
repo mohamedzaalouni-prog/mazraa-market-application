@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block body %}
+<section class="hero-panel">
+    <div>
+        <p class="section-kicker">Administration</p>
+        <h1>{{ page_title }}</h1>
+        <p class="hero-copy">{{ page_intro }}</p>
+    </div>
+    <div class="hero-actions">
+        <a href="{% url 'filiales_list' %}" class="secondary-link-btn">Retour aux filiales</a>
+    </div>
+</section>
+
+<section class="powerbi-card">
+    <form method="post" class="auth-form auth-grid admin-user-form" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="field-span-2 error-panel">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+        {% for field in form %}
+            <div class="field-block {% if field.name == 'description' %}field-span-2{% endif %}">
+                {% if field.name == "is_active" %}
+                    <label class="toggle-card">
+                        {{ field }}
+                        <span>{{ field.label }}</span>
+                    </label>
+                    {% if field.help_text %}<small class="card-note">{{ field.help_text }}</small>{% endif %}
+                {% else %}
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}<small class="card-note">{{ field.help_text }}</small>{% endif %}
+                {% endif %}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <div class="field-span-2">
+            <button type="submit" class="primary-btn">{{ submit_label }}</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

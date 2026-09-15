@@ -1,0 +1,8 @@
+Django==5.2.11
+requests>=2.0,<3.0
+mssql-django==1.6
+pyodbc==5.3.0
+gunicorn>=22,<24
+whitenoise>=6.7,<7.0
+dj-database-url>=2.2,<3.0
+psycopg[binary]>=3.2,<4.0

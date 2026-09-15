@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block body %}
+<section class="hero-panel">
+    <div>
+        <p class="section-kicker">Administration</p>
+        <h1>{{ page_title }}</h1>
+        <p class="hero-copy">{{ page_intro }}</p>
+    </div>
+    <div class="hero-actions">
+        {% if edit_mode %}
+            <a href="{% url 'users_detail' user_obj.id %}" class="secondary-link-btn">Voir le detail</a>
+        {% endif %}
+        <a href="{% url 'users_list' %}" class="secondary-link-btn">Retour a la liste</a>
+    </div>
+</section>
+
+<section class="powerbi-card">
+    <form method="post" class="auth-form auth-grid admin-user-form" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="field-span-2 error-panel">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+        <div class="form-section field-span-2">
+            <div class="card-head">
+                <div>
+                    <p class="section-kicker">Compte</p>
+                    <h2>Informations du compte</h2>
+                </div>
+            </div>
+            <div class="auth-grid">
+                {% for field in form %}
+                    {% if field.name == "cin" or field.name == "first_name" or field.name == "last_name" or field.name == "email" or field.name == "new_password1" or field.name == "new_password2" or field.name == "password1" or field.name == "password2" %}
+                        <div class="field-block {% if field.name == 'new_password1' or field.name == 'new_password2' or field.name == 'password1' or field.name == 'password2' %}field-span-2{% endif %}">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}<small class="card-note">{{ field.help_text }}</small>{% endif %}
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-section field-span-2">
+            <div class="card-head">
+                <div>
+                    <p class="section-kicker">Profil metier</p>
+                    <h2>Rattachement et perimetre</h2>
+                </div>
+            </div>
+            <div class="auth-grid">
+                {% for field in form %}
+                    {% if field.name == "filiale" or field.name == "accessible_filiales" or field.name == "phone" or field.name == "position" or field.name == "is_filiale_admin" %}
+                        <div class="field-block {% if field.name == 'accessible_filiales' %}field-span-2{% endif %}">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}<small class="card-note">{{ field.help_text }}</small>{% endif %}
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-section field-span-2">
+            <div class="card-head">
+                <div>
+                    <p class="section-kicker">Permissions</p>
+                    <h2>Acces d'administration</h2>
+                </div>
+            </div>
+            <div class="auth-grid">
+                {% for field in form %}
+                    {% if field.name == "is_staff" or field.name == "is_superuser" or field.name == "is_active" %}
+                        <div class="field-block field-toggle-block">
+                            <label class="toggle-card">
+                                {{ field }}
+                                <span>{{ field.label }}</span>
+                            </label>
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="field-span-2">
+            <button type="submit" class="primary-btn">{{ submit_label }}</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

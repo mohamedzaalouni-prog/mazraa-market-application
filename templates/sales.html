@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Ventes{% endblock %}
+
+{% block body %}
+<section class="powerbi-card">
+    {% if filiale_has_data %}
+        <div id="sales-embed" class="powerbi-embed-zone"></div>
+    {% else %}
+        <article class="empty-state-card">
+            <h2>Aucune donnee ventes pour le moment</h2>
+            <p>
+                La filiale {{ filiale.name }} n'a pas encore de donnees ventes integrees.
+            </p>
+        </article>
+    {% endif %}
+</section>
+
+{% endblock %}
